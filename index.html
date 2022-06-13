@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "styles.css">
+    <script src = "index.js" defer></script>
+    <title>Library</title>
+</head>
+<body>
+    <div class = "container">
+        <button id = "add" class = "btn">Add book</button>
+        <div class = "grid"></div>
+        <div class = "modal">
+            <div class = "modal-content">
+                <label for="firstName">Title</label>
+                <input type="text" name = "title" id="title" class = "input" required>
+                <label for="author">Author: </label>
+                <input id = "author" type = "text" name = "author" class = "input" required>
+                <label for="pages">Number of pages: </label>
+                <input id = "pages" type = "text" name = "pages" class = "input"required>
+                <div class = "modal-button">
+                    <button id = "cancel" class = "btn red">Cancel</button>
+                    <button id = "submit" class = "btn">Submit</button>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</body>
+</html>
