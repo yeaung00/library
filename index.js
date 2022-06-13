@@ -8,17 +8,16 @@ const bookPages = document.getElementById('pages');
 const container = document.querySelector('.container');
 const grid = document.querySelector('.grid');
 let createDiv;
-
 let deleteDivBtn;
 let title = "";
 let author = "";
 let pages = 0;
 let myLibrary = [];
-
+let id = 1;
+let idToRemove;
 btn.addEventListener('click', (e) => {
     modal.style.display = 'block';
-    
-    //
+    console.log(myLibrary);
 });
 
 cancel.addEventListener('click', (e) => {
@@ -31,12 +30,12 @@ submit.addEventListener('click', (e) => {
     pages = bookPages.value;
     addBookToLibrary();
     modal.style.display = "none";
+    id++;
 })
-function printBook() {
-  console.log(form.value);
-}
+
 
 function Book(title, author, pages) {
+    this.id = id;
     this.author = author;
     this.title = title;
     this.pages = pages;
@@ -58,24 +57,23 @@ function createLibraryContent() {
 function addBookToLibrary() {
     myLibrary = new Book(title, author, pages);
     createDiv = document.createElement("div");
-    deleteDivBtn = document.createElement("button");
-    deleteDivBtn.setAttribute('class', 'btn red');
-    deleteDivBtn.textContent = "Delete";
-    deleteDivBtn.addEventListener('click', (e) => {
-        grid.removeChild(createDiv);
-    })
-    createDiv.appendChild(deleteDivBtn);
+    createDiv.setAttribute('id', id);
+    deleteBtn();
     createLibraryContent();
     grid.appendChild(createDiv);
-    displayBook();
 }
 
+function deleteBtn() {
+    deleteDivBtn = document.createElement("button");
+    deleteDivBtn.setAttribute('class', 'btn red');
+    deleteDivBtn.setAttribute('id', id);
+    deleteDivBtn.textContent = "Delete";
+    createDiv.appendChild(deleteDivBtn);
+    deleteDivBtn.addEventListener('click', (e) => {
+        idToRemove = e.target.id
+        myLibrary = Object.values(myLibrary).filter((item) => item.id !== idToRemove);
+        let removeDiv = document.getElementById(idToRemove);
+        grid.removeChild(removeDiv);
+    });
 
-
-
-function displayBook() {
-    
-    console.log(myLibrary.title);
-    console.log(myLibrary.author);
-    console.log(myLibrary.pages);
 }
