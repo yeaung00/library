@@ -9,8 +9,15 @@
     <title>Library</title>
 </head>
 <body>
-    <div class = "container">
+    <div class = "header"><h1>Library</h1>
+        <p>This is a simple library created with HTML/CSS/Javascript that allows you to record the book title, author, pages, and check if you have read the book.</p>
         <button id = "add" class = "btn">Add book</button>
+    </div>
+    
+    <div class = "container">
+        
+        
+        
         <div class = "grid"></div>
         <div class = "modal">
             <div class = "modal-content">
@@ -18,16 +25,14 @@
                 <input type="text" name = "title" id="title" class = "input" required>
                 <label for="author">Author: </label>
                 <input id = "author" type = "text" name = "author" class = "input" required>
-                <label for="pages">Number of pages: </label>
+                <label for="pages">Pages: </label>
                 <input id = "pages" type = "text" name = "pages" class = "input"required>
                 <div class = "modal-button">
                     <button id = "cancel" class = "btn red">Cancel</button>
                     <button id = "submit" class = "btn">Submit</button>
                 </div>
             </div>
-            
         </div>
-        
     </div>
 </body>
 </html>
