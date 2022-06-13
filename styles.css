@@ -1,0 +1,18 @@
+body {
+    margin: 0;
+}
+.input {
+    display:block;
+}
+.btn {
+    color: black;
+    font-size: 1.25em;
+    padding: .4em;
+    border-radius: .4em;
+}
+.btn:hover {
+    background-color: rgb(94, 199, 196);
+}
+.red:hover {
+    background-color: rgb(199, 95, 95);
+}
