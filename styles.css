@@ -1,9 +1,27 @@
 body {
     margin: 0;
 }
+
+/* ==========
+Typography
+===========*/
+.header {
+    text-align: center;
+    margin-bottom: 3em;
+}
+.header h1 {
+    font-size: 3rem;
+}
+.header p {
+    margin:auto;
+    width: 70%;
+    font-size: 1.75rem;
+    margin-bottom: 1em;
+}
 .input {
     display:block;
 }
+
 .btn {
     color: black;
     font-size: 1.25em;
@@ -32,7 +50,7 @@ Modal
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-              
+       
 .modal-content {
     font-size: 1.25em;
     display:flex;
@@ -71,23 +89,28 @@ Modal
 /* ==========
 Layout
 ===========*/
+
 .grid {
-    
+    width: 90%;
+    margin:auto;
+
     display:grid;
-    margin: auto;
-    width: 100%;
     grid-template-columns: repeat(auto-fit, 20em);
-    border: 1px solid black;
     justify-content: center;
-    gap: 3em;
+    gap: 10em;
 }
-.grid div {
-    
+.book {
+    padding: 1em;
     height: 20em;
-    border: 1px solid orange;
-    
+    border: 1px solid black;
 }
 
-.grid div p {
+.book p {
     font-size: 1.5rem;
 }
+
+.divBtn {
+    display:flex;
+    justify-content: space-around;
+}
+
