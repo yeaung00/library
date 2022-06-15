@@ -21,7 +21,15 @@ Typography
 .input {
     display:block;
 }
-
+.status-container {
+    display:flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+}
+#status {
+    width: .75em;
+    height: .75em;
+}
 .btn {
     color: black;
     font-size: 1.25em;
