@@ -6,6 +6,7 @@ const cancel = document.getElementById('cancel');
 const submit = document.getElementById('submit');
 const bookAuthor = document.getElementById('author');
 const bookPages = document.getElementById('pages');
+const bookStatus = document.querySelectorAll('.status');
 const container = document.querySelector('.container');
 const grid = document.querySelector('.grid');
 let createDiv;
@@ -15,33 +16,47 @@ let deleteDivBtn;
 let title = "";
 let author = "";
 let pages = 0;
+let read = "";
 let myLibrary = [];
 let id = 1;
 let idToRemove;
 let idToEdit;
 
 btn.addEventListener('click', (e) => {
+    title = "";
+    author = "";
+    pages = 0;
+    read = "";
     modal.style.display = 'block';
 });
 
 cancel.addEventListener('click', (e) => {
     modal.style.display = "none";
-})
+});
+
+[].forEach.call(bookStatus, function(item, i) {
+    item.addEventListener('change', () => {
+        read = item.value;
+        console.log(read);
+    });
+});
 
 submit.addEventListener('click', (e) => {
     title = bookTitle.value;
     author = bookAuthor.value;
     pages = bookPages.value;
+    
     addBookToLibrary();
     modal.style.display = "none";
     id++;
 })
 
-function Book(title, author, pages) {
+function Book(title, author, pages, read) {
     this.id = id;
     this.author = author;
     this.title = title;
     this.pages = pages;
+    this.read = read;
 }
 
 function createLibraryContent() {
@@ -56,9 +71,13 @@ function createLibraryContent() {
     createParagraph = document.createElement("p");
     createParagraph.textContent = "Pages: " + myLibrary.pages;
     createDiv.appendChild(createParagraph);
+
+    createParagraph = document.createElement("p");
+    createParagraph.textContent = "Status: " + myLibrary.read;
+    createDiv.appendChild(createParagraph);
 }
 function addBookToLibrary() {
-    myLibrary = new Book(title, author, pages);
+    myLibrary = new Book(title, author, pages, read);
     createDiv = document.createElement("div");
     createDiv.setAttribute('id', 'book' + id);
     createDiv.setAttribute('class', 'book');
