@@ -19,8 +19,8 @@ let author = "";
 let pages = 0;
 let read = "";
 let myLibrary = [];
-let id = 0;
-let bookID;
+let bookID = 0;
+let selectedBookID;
 let editText;
 let isEditing = false;
 
@@ -50,11 +50,11 @@ submit.addEventListener('click', (e) => {
     }
     
     addBookToLibrary();
-    id++;
+    bookID++;
 });
 
 function Book(title, author, pages, read) {
-    this.id = id;
+    this.bookID = bookID;
     this.author = author;
     this.title = title;
     this.pages = pages;
@@ -63,26 +63,26 @@ function Book(title, author, pages, read) {
 
 function createLibraryContent() {
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Title: " + myLibrary[bookID].title;
+    createParagraph.textContent = "Title: " + myLibrary[selectedBookID].title;
     selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Author: " + myLibrary[bookID].author;
+    createParagraph.textContent = "Author: " + myLibrary[selectedBookID].author;
     selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Pages: " + myLibrary[bookID].pages;
+    createParagraph.textContent = "Pages: " + myLibrary[selectedBookID].pages;
     selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Status: " + myLibrary[bookID].read;
+    createParagraph.textContent = "Status: " + myLibrary[selectedBookID].read;
     selectedDiv.appendChild(createParagraph);
 }
 
 function addBookToLibrary() {
-    myLibrary[id] = new Book(title, author, pages, read);
+    myLibrary[bookID] = new Book(title, author, pages, read);
     selectedDiv = document.createElement("div");
-    selectedDiv.setAttribute('id', 'book' + id);
+    selectedDiv.setAttribute('id', 'book' + bookID);
     selectedDiv.setAttribute('class', 'book');
     addButtons();
     createLibraryContent();
@@ -91,7 +91,7 @@ function addBookToLibrary() {
 }
 
 function editBookToLibrary() {
-    myLibrary[bookID] = new Book(title, author, pages, read);
+    myLibrary[selectedBookID] = new Book(title, author, pages, read);
     editText = selectedDiv.querySelectorAll("p");
     for (let i = 0; i < editText.length; i++) {
         selectedDiv.removeChild(editText[i]);
@@ -101,27 +101,31 @@ function editBookToLibrary() {
 }
 
 function addButtons() {
-    bookID = id;
-    divBtn = document.createElement("div");
-    divBtn.setAttribute('class', 'divBtn');
+    selectedBookID = bookID;
+    
     
     deleteDivBtn = document.createElement("button");
+    deleteDivBtn.setAttribute('class', 'btn red');
+    deleteDivBtn.setAttribute('id', bookID);
+    deleteDivBtn.textContent = "Delete";
+
     editDivBtn = document.createElement("button");
     editDivBtn.setAttribute('class', 'btn');
-    editDivBtn.setAttribute('id', id);
+    editDivBtn.setAttribute('id', bookID);
     editDivBtn.textContent = "Edit";
-    deleteDivBtn.setAttribute('class', 'btn red');
-    deleteDivBtn.setAttribute('id', id);
-    deleteDivBtn.textContent = "Delete";
+
+    divBtn = document.createElement("div");
+    divBtn.setAttribute('class', 'divBtn');
     divBtn.appendChild(deleteDivBtn);
     divBtn.appendChild(editDivBtn);
+
     selectedDiv.appendChild(divBtn);
 
     deleteDivBtn.addEventListener('click', (e) => {
-        id--;
-        bookID = e.target.id;
-        myLibrary.splice(bookID, 1);
-        selectedDiv = document.getElementById('book' + bookID);
+        bookID--;
+        selectedBookID = e.target.id;
+        myLibrary.splice(selectedBookID, 1);
+        selectedDiv = document.getElementById('book' + selectedBookID);
         grid.removeChild(selectedDiv);
         console.log(myLibrary);
     });
@@ -130,7 +134,7 @@ function addButtons() {
         isEditing = true;
         console.log(selectedDiv+ 'before');
         modal.style.display = 'block';
-        bookID = e.target.id;
-        selectedDiv = document.getElementById('book' + bookID);
+        selectedBookID = e.target.id;
+        selectedDiv = document.getElementById('book' + selectedBookID);
     });
 }
