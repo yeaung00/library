@@ -1,7 +1,7 @@
 const bookTitle = document.getElementById('title');
 const modal = document.querySelector('.modal');
 const modalEdit = document.querySelector('.modal-edit');
-const btn = document.getElementById('add');
+const addBookBtn = document.getElementById('add');
 const cancel = document.getElementById('cancel');
 const submit = document.getElementById('submit');
 const bookAuthor = document.getElementById('author');
@@ -24,12 +24,8 @@ let bookID;
 let editText;
 let isEditing = false;
 
-btn.addEventListener('click', (e) => {
+addBookBtn.addEventListener('click', (e) => {
     isEditing = false;
-    title = "";
-    author = "";
-    pages = 0;
-    read = "";
     modal.style.display = 'block';
 });
 
@@ -82,16 +78,18 @@ function createLibraryContent() {
     createParagraph.textContent = "Status: " + myLibrary[bookID].read;
     selectedDiv.appendChild(createParagraph);
 }
+
 function addBookToLibrary() {
     myLibrary[id] = new Book(title, author, pages, read);
     selectedDiv = document.createElement("div");
     selectedDiv.setAttribute('id', 'book' + id);
     selectedDiv.setAttribute('class', 'book');
-    deleteBtn();
+    addButtons();
     createLibraryContent();
     grid.appendChild(selectedDiv);
     console.log(myLibrary);
 }
+
 function editBookToLibrary() {
     myLibrary[bookID] = new Book(title, author, pages, read);
     editText = selectedDiv.querySelectorAll("p");
@@ -101,7 +99,8 @@ function editBookToLibrary() {
     console.log(myLibrary);
     createLibraryContent();
 }
-function deleteBtn() {
+
+function addButtons() {
     bookID = id;
     divBtn = document.createElement("div");
     divBtn.setAttribute('class', 'divBtn');
@@ -117,12 +116,16 @@ function deleteBtn() {
     divBtn.appendChild(deleteDivBtn);
     divBtn.appendChild(editDivBtn);
     selectedDiv.appendChild(divBtn);
+
     deleteDivBtn.addEventListener('click', (e) => {
+        id--;
         bookID = e.target.id;
-        myLibrary = Object.values(myLibrary).filter((item) => item.id !== bookID);
+        myLibrary.splice(bookID, 1);
         selectedDiv = document.getElementById('book' + bookID);
         grid.removeChild(selectedDiv);
+        console.log(myLibrary);
     });
+
     editDivBtn.addEventListener('click', (e) => {
         isEditing = true;
         console.log(selectedDiv+ 'before');
