@@ -1,5 +1,5 @@
 const bookTitle = document.getElementById('title');
-const modal = document.querySelector('.modal')
+const modal = document.querySelector('.modal');
 const modalEdit = document.querySelector('.modal-edit');
 const addBookBtn = document.getElementById('add');
 const cancel = document.getElementById('cancel');
