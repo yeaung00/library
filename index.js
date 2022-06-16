@@ -9,7 +9,8 @@ const bookPages = document.getElementById('pages');
 const bookStatus = document.querySelectorAll('.status');
 const container = document.querySelector('.container');
 const grid = document.querySelector('.grid');
-let createDiv;
+let selectedDiv;
+let createParagraph;
 let editDivBtn;
 let divBtn;
 let deleteDivBtn;
@@ -18,11 +19,13 @@ let author = "";
 let pages = 0;
 let read = "";
 let myLibrary = [];
-let id = 1;
-let idToRemove;
-let idToEdit;
+let id = 0;
+let bookID;
+let editText;
+let isEditing = false;
 
 btn.addEventListener('click', (e) => {
+    isEditing = false;
     title = "";
     author = "";
     pages = 0;
@@ -37,7 +40,6 @@ cancel.addEventListener('click', (e) => {
 [].forEach.call(bookStatus, function(item, i) {
     item.addEventListener('change', () => {
         read = item.value;
-        console.log(read);
     });
 });
 
@@ -45,11 +47,15 @@ submit.addEventListener('click', (e) => {
     title = bookTitle.value;
     author = bookAuthor.value;
     pages = bookPages.value;
+    modal.style.display = "none";
+    if (isEditing === true) {
+        editBookToLibrary();
+        return;
+    }
     
     addBookToLibrary();
-    modal.style.display = "none";
     id++;
-})
+});
 
 function Book(title, author, pages, read) {
     this.id = id;
@@ -61,52 +67,67 @@ function Book(title, author, pages, read) {
 
 function createLibraryContent() {
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Title: " + myLibrary.title;
-    createDiv.appendChild(createParagraph);
+    createParagraph.textContent = "Title: " + myLibrary[bookID].title;
+    selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Author: " + myLibrary.author;
-    createDiv.appendChild(createParagraph);
+    createParagraph.textContent = "Author: " + myLibrary[bookID].author;
+    selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Pages: " + myLibrary.pages;
-    createDiv.appendChild(createParagraph);
+    createParagraph.textContent = "Pages: " + myLibrary[bookID].pages;
+    selectedDiv.appendChild(createParagraph);
 
     createParagraph = document.createElement("p");
-    createParagraph.textContent = "Status: " + myLibrary.read;
-    createDiv.appendChild(createParagraph);
+    createParagraph.textContent = "Status: " + myLibrary[bookID].read;
+    selectedDiv.appendChild(createParagraph);
 }
 function addBookToLibrary() {
-    myLibrary = new Book(title, author, pages, read);
-    createDiv = document.createElement("div");
-    createDiv.setAttribute('id', 'book' + id);
-    createDiv.setAttribute('class', 'book');
+    myLibrary[id] = new Book(title, author, pages, read);
+    selectedDiv = document.createElement("div");
+    selectedDiv.setAttribute('id', 'book' + id);
+    selectedDiv.setAttribute('class', 'book');
     deleteBtn();
     createLibraryContent();
-    grid.appendChild(createDiv);
+    grid.appendChild(selectedDiv);
+    console.log(myLibrary);
 }
-
+function editBookToLibrary() {
+    myLibrary[bookID] = new Book(title, author, pages, read);
+    editText = selectedDiv.querySelectorAll("p");
+    for (let i = 0; i < editText.length; i++) {
+        selectedDiv.removeChild(editText[i]);
+    }
+    console.log(myLibrary);
+    createLibraryContent();
+}
 function deleteBtn() {
+    bookID = id;
     divBtn = document.createElement("div");
     divBtn.setAttribute('class', 'divBtn');
     
     deleteDivBtn = document.createElement("button");
     editDivBtn = document.createElement("button");
     editDivBtn.setAttribute('class', 'btn');
+    editDivBtn.setAttribute('id', id);
     editDivBtn.textContent = "Edit";
     deleteDivBtn.setAttribute('class', 'btn red');
     deleteDivBtn.setAttribute('id', id);
     deleteDivBtn.textContent = "Delete";
     divBtn.appendChild(deleteDivBtn);
     divBtn.appendChild(editDivBtn);
-    createDiv.appendChild(divBtn);
+    selectedDiv.appendChild(divBtn);
     deleteDivBtn.addEventListener('click', (e) => {
-        idToRemove = e.target.id;
-        myLibrary = Object.values(myLibrary).filter((item) => item.id !== idToRemove);
-        let removeDiv = document.getElementById('book' + idToRemove);
-        console.log(removeDiv);
-        grid.removeChild(removeDiv);
+        bookID = e.target.id;
+        myLibrary = Object.values(myLibrary).filter((item) => item.id !== bookID);
+        selectedDiv = document.getElementById('book' + bookID);
+        grid.removeChild(selectedDiv);
     });
-
-
+    editDivBtn.addEventListener('click', (e) => {
+        isEditing = true;
+        console.log(selectedDiv+ 'before');
+        modal.style.display = 'block';
+        bookID = e.target.id;
+        selectedDiv = document.getElementById('book' + bookID);
+    });
 }
